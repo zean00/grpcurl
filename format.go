@@ -421,7 +421,8 @@ type DefaultEventHandler struct {
 	NumResponses int
 	// Status is the status that was received at the end of an RPC. It is
 	// nil if the RPC is still in progress.
-	Status *status.Status
+	Status   *status.Status
+	Metadata metadata.MD
 }
 
 // NewDefaultEventHandler returns an InvocationEventHandler that logs events to
@@ -465,6 +466,7 @@ func (h *DefaultEventHandler) OnReceiveHeaders(md metadata.MD) {
 	if h.VerbosityLevel > 0 {
 		fmt.Fprintf(h.Out, "\nResponse headers received:\n%s\n", MetadataToString(md))
 	}
+	h.Metadata = md.Copy()
 }
 
 func (h *DefaultEventHandler) OnReceiveResponse(resp proto.Message) {

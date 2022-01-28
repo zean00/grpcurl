@@ -87,7 +87,7 @@ type RequestSupplier func(proto.Message) error
 func InvokeRPC(ctx context.Context, source DescriptorSource, ch grpcdynamic.Channel, methodName string,
 	headers []string, handler InvocationEventHandler, requestData RequestSupplier) error {
 
-	md := MetadataFromHeaders(headers)
+	md := MetadataFromHeaders(ctx, headers)
 
 	svc, mth := parseSymbol(methodName)
 	if svc == "" || mth == "" {

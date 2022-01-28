@@ -30,7 +30,7 @@ import (
 	// Register xds so xds and xds-experimental resolver schemes work
 	_ "google.golang.org/grpc/xds"
 
-	"github.com/fullstorydev/grpcurl"
+	"github.com/zean00/grpcurl"
 )
 
 // To avoid confusion between program error codes and the gRPC resonse
@@ -507,7 +507,7 @@ func main() {
 		}
 	}
 	if reflection.val {
-		md := grpcurl.MetadataFromHeaders(append(addlHeaders, reflHeaders...))
+		md := grpcurl.MetadataFromHeaders(context.Background(), append(addlHeaders, reflHeaders...))
 		refCtx := metadata.NewOutgoingContext(ctx, md)
 		cc = dial()
 		refClient = grpcreflect.NewClient(refCtx, reflectpb.NewServerReflectionClient(cc))

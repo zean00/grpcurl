@@ -143,8 +143,13 @@ func ListMethods(source DescriptorSource, serviceName string) ([]string, error) 
 // to be blank. Binary headers (those whose names end in "-bin") should be
 // base64-encoded. But if they cannot be base64-decoded, they will be assumed to
 // be in raw form and used as is.
-func MetadataFromHeaders(headers []string) metadata.MD {
+func MetadataFromHeaders(ctx context.Context, headers []string) metadata.MD {
 	md := make(metadata.MD)
+	cmd, ok := metadata.FromIncomingContext(ctx)
+	if ok {
+		md = cmd.Copy()
+	}
+	//md := make(metadata.MD)
 	for _, part := range headers {
 		if part != "" {
 			pieces := strings.SplitN(part, ":", 2)

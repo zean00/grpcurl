@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
-	"github.com/fullstorydev/grpcurl"
+	"github.com/zean00/grpcurl"
 )
 
 // TestServer implements the TestService interface defined in example.proto.
@@ -237,8 +237,8 @@ func processMetadata(ctx context.Context) (metadata.MD, metadata.MD, codes.Code,
 	if !ok {
 		return nil, nil, codes.OK, codes.OK
 	}
-	return grpcurl.MetadataFromHeaders(md[MetadataReplyHeaders]),
-		grpcurl.MetadataFromHeaders(md[MetadataReplyTrailers]),
+	return grpcurl.MetadataFromHeaders(ctx, md[MetadataReplyHeaders]),
+		grpcurl.MetadataFromHeaders(ctx, md[MetadataReplyTrailers]),
 		toCode(md[MetadataFailEarly]),
 		toCode(md[MetadataFailLate])
 }
